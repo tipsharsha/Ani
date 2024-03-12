@@ -35,7 +35,15 @@ async def ban(ctx, user: commands.User):
     await ctx.channel.ban(user)
     await ctx.send(f'Banned {user.name}!')
     
-
+#ask for what game to play
+@Ani.command(name='game')
+async def game(ctx, game):
+    await ctx.send(f'Hello {ctx.author.name}!. tipsharsha is playing {game} right now. Enjoy the stream!')
+    
+#make a poll for the viewers
+@Ani.command(name='poll')
+async def poll(ctx, *options):
+    await ctx.send(f'Hello {ctx.author.name}!. tipsharsha has started a poll. The options are: {", ".join(options)}')
 
 if __name__ == "__main__":
     Ani.run()
