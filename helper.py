@@ -11,6 +11,7 @@ def predict_response(prompt, model, tokenizer):
 
 def determine_sentiment(text,classifier):
     sentiment = classifier(text)
+    print(sentiment)
     if sentiment[0]['label'] == 'LABEL_0' and sentiment[0]['score'] > 0.7:
         return True
     else:

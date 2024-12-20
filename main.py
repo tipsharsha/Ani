@@ -1,4 +1,4 @@
-
+#TO-DO: Add functionality to send SUB and FOLLOWERS event to the streamer
 import os
 from cred import TOKEN, ID
 import helper
@@ -11,7 +11,7 @@ classifier = pipeline("text-classification", model="textattack/bert-base-uncased
 model_name = "distilgpt2"
 model = AutoModelForCausalLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-prompt = f"Human:Hello. Who are you?\nAI: I am an Twitch Bot assistant. How can I help you today?\nHuman:Can you tell me about the streamer?\nAI:Sure! The streamer is a Communication Engineer streaming Fortnite.\nHuman:"
+prompt = f"Human:Hello. Who are you?\nANI: I am an Twitch Bot assistant. How can I help you today?\nHuman:Can you tell me about the streamer?\nANI:Sure! The streamer is a Communication Engineer streaming Fortnite."
 
 class MyBot(commands.Bot):
     def __init__(self):
@@ -23,14 +23,16 @@ class MyBot(commands.Bot):
     async def event_message(self,ctx):
         """ Runs every time a message is sent in chat. """
         global prompt
-        if ctx.author.name is not None and helper.determine_sentiment(ctx.content,classifier):
+        if ctx.author is not None :
             print(f"Message from {ctx.author.name}: {ctx.content}")
-            prompt = prompt + ctx.content + "\nAI:"
-            response = helper.predict_response(prompt, model, tokenizer)
-            #Before printing the response, clear screen and print the response
-            print("\033[H\033[J")
-            print(f"Response: {response}")
-            await ctx.channel.send(response)
+            prompt = prompt +"\n"+ctx.author.name+ctx.content + "\nAI:"
+            if helper.determine_sentiment(ctx.content,classifier):
+                response = helper.predict_response(prompt, model, tokenizer)
+                #Before printing the response, clear screen and print the response
+                print("\033[H\033[J")
+                print(f"Response: {response}")
+                await ctx.channel.send(response)
+            await self.handle_commands(ctx)
 
 Ani = MyBot()
 @Ani.command(name='hello')
