@@ -4,8 +4,10 @@ from cred import TOKEN, ID
 import helper
 from twitchio.ext import commands,eventsub
 import twitchio
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
+
+classifier = pipeline("text-classification", model="textattack/bert-base-uncased-yelp-polarity")
 model_name = "distilgpt2"
 model = AutoModelForCausalLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -21,10 +23,10 @@ class MyBot(commands.Bot):
     async def event_message(self,ctx):
         """ Runs every time a message is sent in chat. """
         global prompt
-        if ctx.author.name is not None:
+        if ctx.author.name is not None and helper.determine_sentiment(ctx.content,classifier):
             print(f"Message from {ctx.author.name}: {ctx.content}")
             prompt = prompt + ctx.content + "\nAI:"
-            response = helper.predict(prompt, model, tokenizer)
+            response = helper.predict_response(prompt, model, tokenizer)
             #Before printing the response, clear screen and print the response
             print("\033[H\033[J")
             print(f"Response: {response}")
