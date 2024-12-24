@@ -1,2 +1,4 @@
-TOKEN = 'oauth:v4jp8mnpe3x3bv27gisrdvm6lxgzct'
-ID = 'gp762nuuoqcoxypju8c569th9wz7q5'
+TOKEN = "oauth:dmfo1utm36kfptk5kfv2mq0jwvbpzp"
+ID = '02t2gvxfc1hbfx7tz78cyhhi0p6b65'
+CLIENT_SECRET = 'zmv72ojav98qeuyhqoxmk3pqq0nhql'
+CLIENT_ID = '02t2gvxfc1hbfx7tz78cyhhi0p6b65'
